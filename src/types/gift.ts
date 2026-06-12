@@ -29,6 +29,7 @@ export type GiftCategory =
 export const CATEGORY_LABELS: Record<string, string> = {
   todos: "Todos",
   importantes: "⭐ Importantes",
+  fraldas: "🚼 Fraldas",
   quartinho: "🛏️ Quartinho",
   banho: "🛁 Banho",
   alimentacao: "🍼 Alimentação",
