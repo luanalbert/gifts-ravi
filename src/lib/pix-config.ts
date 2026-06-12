@@ -10,5 +10,5 @@ export const PIX_CONFIG = {
   receiverName: "Luan Albert Araujo dos Santos",
 
   // Cidade do recebedor (máx 15 caracteres)
-  city: "Bahia",
+  city: "Traipu",
 } as const;
