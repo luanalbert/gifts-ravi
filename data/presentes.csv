@@ -1,9 +1,0 @@
-id,nome,valor_sugerido,categoria,prioridade,imagem,descricao
-1,Banheira do Ravi,180,banho,true,banheira.webp,Hora do banho mais gostosa para o nosso menino.
-2,Berço Premium,650,quartinho,true,berco.webp,Para o Ravi dormir com todo conforto e segurança.
-3,Kit Body Recém-nascido,120,roupinhas,false,body.webp,Roupinhas macias e quentinhas para os primeiros dias.
-4,Mamadeira Anticólica,80,alimentacao,true,mamadeira.webp,Para os momentos de alimentação sem desconforto.
-5,Mobile Musical,200,quartinho,false,mobile.webp,Para estimular o desenvolvimento e trazer calma.
-6,Kit Higiene Bebê,150,banho,false,kit-higiene.webp,Tudo que precisa para o cuidado diário do Ravi.
-7,Ursinho de Pelúcia,90,mimos,false,ursinho.webp,Um companheiro quentinho para o Ravi crescer junto.
-8,Carrinho de Bebê,900,outros,true,carrinho.webp,Para os passeios com o Ravi pela cidade.
