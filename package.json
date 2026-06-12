@@ -9,7 +9,7 @@
     "sync-gifts": "npx tsx scripts/sync-gifts.ts"
   },
   "dependencies": {
-    "next": "15.3.3",
+    "next": "16.2.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "zustand": "^5.0.0",
