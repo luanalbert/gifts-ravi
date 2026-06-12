@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "Banheira do Ravi",
+    "suggestedPrice": 180,
+    "category": "banho",
+    "priority": true,
+    "image": "/images/banheira.webp",
+    "description": "Hora do banho mais gostosa para o nosso menino."
+  },
+  {
+    "id": 2,
+    "name": "Berço Premium",
+    "suggestedPrice": 650,
+    "category": "quartinho",
+    "priority": true,
+    "image": "/images/berco.webp",
+    "description": "Para o Ravi dormir com todo conforto e segurança."
+  },
+  {
+    "id": 3,
+    "name": "Kit Body Recém-nascido",
+    "suggestedPrice": 120,
+    "category": "roupinhas",
+    "priority": false,
+    "image": "/images/body.webp",
+    "description": "Roupinhas macias e quentinhas para os primeiros dias."
+  },
+  {
+    "id": 4,
+    "name": "Mamadeira Anticólica",
+    "suggestedPrice": 80,
+    "category": "alimentacao",
+    "priority": true,
+    "image": "/images/mamadeira.webp",
+    "description": "Para os momentos de alimentação sem desconforto."
+  },
+  {
+    "id": 5,
+    "name": "Mobile Musical",
+    "suggestedPrice": 200,
+    "category": "quartinho",
+    "priority": false,
+    "image": "/images/mobile.webp",
+    "description": "Para estimular o desenvolvimento e trazer calma."
+  },
+  {
+    "id": 6,
+    "name": "Kit Higiene Bebê",
+    "suggestedPrice": 150,
+    "category": "banho",
+    "priority": false,
+    "image": "/images/kit-higiene.webp",
+    "description": "Tudo que precisa para o cuidado diário do Ravi."
+  },
+  {
+    "id": 7,
+    "name": "Ursinho de Pelúcia",
+    "suggestedPrice": 90,
+    "category": "mimos",
+    "priority": false,
+    "image": "/images/ursinho.webp",
+    "description": "Um companheiro quentinho para o Ravi crescer junto."
+  },
+  {
+    "id": 8,
+    "name": "Carrinho de Bebê",
+    "suggestedPrice": 900,
+    "category": "outros",
+    "priority": true,
+    "image": "/images/carrinho.webp",
+    "description": "Para os passeios com o Ravi pela cidade."
+  }
+]
