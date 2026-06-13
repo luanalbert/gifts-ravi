@@ -1,9 +1,11 @@
 // pix.ts
+// Gerador de payload Pix (EMV/BR Code)
 
 export interface PixConfig {
   key: string;
   receiverName: string;
   city: string;
+  txid?: string;
   amount?: number;
 }
 
@@ -30,8 +32,11 @@ function crc16(payload: string): string {
     .padStart(4, "0");
 }
 
-function tlv(id: string, value: string): string {
-  // comprimento em bytes UTF-8
+function tlv(
+  id: string,
+  value: string
+): string {
+  // tamanho em bytes UTF-8
   const length = new TextEncoder()
     .encode(value)
     .length
@@ -48,54 +53,98 @@ function sanitizeText(
   return text
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^A-Za-z0-9 ]/g, "")
+    .replace(
+      /[^A-Za-z0-9 ]/g,
+      ""
+    )
     .trim()
     .substring(0, maxLength)
     .toUpperCase();
 }
 
-export function generatePixPayload({
-  key,
-  receiverName,
-  city,
-  amount,
-}: PixConfig): string {
-  const cleanName = sanitizeText(
+export function generatePixPayload(
+  config: PixConfig
+): string {
+  const {
+    key,
     receiverName,
-    25
-  );
-
-  const cleanCity = sanitizeText(
     city,
-    15
-  );
+    txid = "***",
+    amount,
+  } = config;
+
+  if (!key?.trim()) {
+    throw new Error(
+      "Chave Pix é obrigatória"
+    );
+  }
+
+  const cleanName =
+    sanitizeText(
+      receiverName,
+      25
+    );
+
+  const cleanCity =
+    sanitizeText(
+      city,
+      15
+    );
+
+  const cleanTxid =
+    txid
+      .replace(
+        /[^A-Za-z0-9*]/g,
+        ""
+      )
+      .substring(0, 25) || "***";
 
   // Merchant Account Information (26)
-  const merchantAccountInfo = tlv(
-    "26",
-    tlv("00", "BR.GOV.BCB.PIX") +
+  const merchantAccountInfo =
+    tlv(
+      "26",
       tlv(
-        "01",
-        key.trim().toLowerCase()
-      )
-  );
+        "00",
+        "BR.GOV.BCB.PIX"
+      ) +
+        tlv(
+          "01",
+          key
+            .trim()
+            .toLowerCase()
+        )
+    );
 
   let payload = "";
 
   // Payload Format Indicator
-  payload += tlv("00", "01");
+  payload += tlv(
+    "00",
+    "01"
+  );
 
-  // Static QR
-  payload += tlv("01", "11");
+  // Point of Initiation Method
+  // 11 = static
+  payload += tlv(
+    "01",
+    "11"
+  );
 
   // Merchant Account Information
-  payload += merchantAccountInfo;
+  payload +=
+    merchantAccountInfo;
 
   // Merchant Category Code
-  payload += tlv("52", "0000");
+  payload += tlv(
+    "52",
+    "0000"
+  );
 
-  // Currency (BRL)
-  payload += tlv("53", "986");
+  // Currency (986 = BRL)
+  payload += tlv(
+    "53",
+    "986"
+  );
 
   // Amount
   if (
@@ -109,33 +158,60 @@ export function generatePixPayload({
   }
 
   // Country
-  payload += tlv("58", "BR");
+  payload += tlv(
+    "58",
+    "BR"
+  );
 
-  // Receiver Name
+  // Merchant Name
   payload += tlv(
     "59",
     cleanName
   );
 
-  // City
+  // Merchant City
   payload += tlv(
     "60",
     cleanCity
   );
 
-  // TXID obrigatório
+  // Additional Data Field Template
   payload += tlv(
     "62",
-    tlv("05", "***")
+    tlv(
+      "05",
+      cleanTxid
+    )
   );
 
   // CRC placeholder
   payload += "6304";
 
-  // CRC real
-  payload += crc16(payload);
+  const crc =
+    crc16(payload);
 
-  return payload;
+  const finalPayload =
+    payload + crc;
+
+  // DEBUG
+  console.log(
+    "PIX DEBUG"
+  );
+
+  console.log({
+    key,
+    cleanName,
+    cleanCity,
+    cleanTxid,
+    amount,
+    merchantAccountInfo,
+    payloadBeforeCRC:
+      payload,
+    crc,
+    finalPayload,
+  });
+
+  return finalPayload;
 }
 
 export function formatPixAmount(
