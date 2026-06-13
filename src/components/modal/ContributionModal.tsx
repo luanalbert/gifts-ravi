@@ -33,7 +33,7 @@ export function ContributionModal() {
       const payload = generatePixPayload({
         ...PIX_CONFIG,
         amount: contributionAmount,
-        txid: `RAVI${selectedGift.id}`,
+        txid: "***",
       });
       setPixPayload(payload);
     }
