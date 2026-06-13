@@ -7,8 +7,8 @@ export const PIX_CONFIG = {
   key: "contatoluanalbert@gmail.com",
 
   // Nome que aparecerá no app de pagamento (máx 25 caracteres)
-  receiverName: "Luan Albert Araujo dos Santos",
+  receiverName: "Luan Albert",
 
   // Cidade do recebedor (máx 15 caracteres)
-  city: "Alagoas",
+  city: "Traipu",
 } as const;
