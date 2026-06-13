@@ -55,39 +55,6 @@ function sanitizeText(
     .toUpperCase();
 }
 
-function normalizePixKey(key: string): string {
-  const trimmed = key.trim();
-
-  // Email
-  if (trimmed.includes("@")) {
-    return trimmed.toLowerCase();
-  }
-
-  // Somente números
-  const numbers = trimmed.replace(/\D/g, "");
-
-  // CPF
-  if (numbers.length === 11) {
-    return numbers;
-  }
-
-  // CNPJ
-  if (numbers.length === 14) {
-    return numbers;
-  }
-
-  // Telefone BR
-  if (
-    numbers.length === 10 ||
-    numbers.length === 11
-  ) {
-    return `+55${numbers}`;
-  }
-
-  // Chave aleatória ou outro formato
-  return trimmed;
-}
-
 export function generatePixPayload(
   config: PixConfig
 ): string {
@@ -95,7 +62,7 @@ export function generatePixPayload(
     key,
     receiverName,
     city,
-    txid = "TX123",
+    txid = "***",
     amount,
   } = config;
 
@@ -104,9 +71,6 @@ export function generatePixPayload(
       "Chave Pix é obrigatória"
     );
   }
-
-  const normalizedKey =
-    normalizePixKey(key);
 
   const cleanName = sanitizeText(
     receiverName,
@@ -120,43 +84,48 @@ export function generatePixPayload(
 
   const cleanTxid =
     txid
-      .replace(/[^a-zA-Z0-9]/g, "")
-      .substring(0, 25) || "TX123";
+      .replace(/[^a-zA-Z0-9*]/g, "")
+      .substring(0, 25) || "***";
 
-  // Merchant Account Information (26)
-  let merchantAccountInfo =
-    tlv("00", "BR.GOV.BCB.PIX");
+  // Merchant Account Information (ID 26)
+  const gui = tlv(
+    "00",
+    "BR.GOV.BCB.PIX"
+  );
 
-  merchantAccountInfo += tlv(
+  // IMPORTANTE:
+  // usa a chave exatamente como cadastrada
+  const pixKey = tlv(
     "01",
-    normalizedKey
+    key.trim().toLowerCase()
   );
 
-  const mai = tlv(
-    "26",
-    merchantAccountInfo
-  );
+  const merchantAccountInfo =
+    tlv(
+      "26",
+      gui + pixKey
+    );
 
-  // Payload base
   let payload = "";
 
   // Payload Format Indicator
   payload += tlv("00", "01");
 
   // Point of Initiation Method
-  // 11 = static
+  // 11 = static QR
   payload += tlv("01", "11");
 
   // Merchant Account Information
-  payload += mai;
+  payload += merchantAccountInfo;
 
   // Merchant Category Code
   payload += tlv("52", "0000");
 
-  // Currency (986 = BRL)
+  // Transaction Currency
+  // 986 = BRL
   payload += tlv("53", "986");
 
-  // Amount (opcional)
+  // Transaction Amount (opcional)
   if (
     amount !== undefined &&
     amount !== null &&
@@ -174,30 +143,25 @@ export function generatePixPayload(
   // Merchant Name
   payload += tlv(
     "59",
-    cleanName || "RECEBEDOR"
+    cleanName
   );
 
   // Merchant City
   payload += tlv(
     "60",
-    cleanCity || "SAOPAULO"
+    cleanCity
   );
 
-  // Additional Data Field Template
-  const additionalData = tlv(
-    "05",
-    cleanTxid
-  );
-
+  // Additional Data Field Template (TXID)
   payload += tlv(
     "62",
-    additionalData
+    tlv("05", cleanTxid)
   );
 
   // CRC placeholder
   payload += "6304";
 
-  // CRC real
+  // CRC final
   const crc = crc16(payload);
 
   return payload + crc;
