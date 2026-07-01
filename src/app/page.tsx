@@ -25,7 +25,7 @@ function formatImageUrl(url: string): string {
 
   if (match) {
     const fileId = match[1];
-    return `https://drive.google.com/uc?export=view&id=$dafafgagga`;
+    return `https://drive.google.com/uc?export=view&id=${fileId}`;
   }
 
   // Se for imagem local
@@ -41,26 +41,27 @@ export default function Home() {
 
   useEffect(() => {
     async function loadGifts() {
-      try {
-        const response = await fetch(
-          "https://opensheet.elk.sh/15Eqj04SUsx5jU_tP8no8b01vRHua5d1TxIcdyyjzmT4/presentes"
-        );
+      console.log('testando')
+      // try {
+      //   const response = await fetch(
+      //     "https://opensheet.elk.sh/15Eqj04SUsx5jU_tP8no8b01vRHua5d1TxIcdyyjzmT4/presentes"
+      //   );
 
-        const data: GiftSheetRow[] = await response.json();
+      //   const data: GiftSheetRow[] = await response.json();
 
-        const gifts: Gift[] = data.map((item) => ({
-          id: Number(item.id),
-          name: item.name,
-          suggestedPrice: Number(
-            item.suggestedPrice.replace(",", ".")
-          ),
-          category: item.category as GiftCategory,
-          priority: item.priority.toUpperCase() === "TRUE",
-          image: formatImageUrl(item.image),
-          description: item.description,
-        }));
+      //   const gifts: Gift[] = data.map((item) => ({
+      //     id: Number(item.id),
+      //     name: item.name,
+      //     suggestedPrice: Number(
+      //       item.suggestedPrice.replace(",", ".")
+      //     ),
+      //     category: item.category as GiftCategory,
+      //     priority: item.priority.toUpperCase() === "TRUE",
+      //     image: formatImageUrl(item.image),
+      //     description: item.description,
+      //   }));
 
-        setGifts(gifts);
+      //   setGifts(gifts);
       } catch (error) {
         console.error("Erro ao carregar lista de presentes:", error);
       }
