@@ -41,32 +41,32 @@ export default function Home() {
 
   useEffect(() => {
     async function loadGifts() {
-      // try {
-      //   const response = await fetch(
-      //     "https://opensheet.elk.sh/15Eqj04SUsx5jU_tP8no8b01vRHua5d1TxIcdyyjzmT4/presentes"
-      //   );
+      try {
+        const response = await fetch(
+          "https://opensheet.elk.sh/15Eqj04SUsx5jU_tP8no8b01vRHua5d1TxIcdyyjzmT4/presentes"
+        );
 
-      //   const data: GiftSheetRow[] = await response.json();
+        const data: GiftSheetRow[] = await response.json();
 
-      //   const gifts: Gift[] = data.map((item) => ({
-      //     id: Number(item.id),
-      //     name: item.name,
-      //     suggestedPrice: Number(
-      //       item.suggestedPrice.replace(",", ".")
-      //     ),
-      //     category: item.category as GiftCategory,
-      //     priority: item.priority.toUpperCase() === "TRUE",
-      //     image: formatImageUrl(item.image),
-      //     description: item.description,
-      //   }));
+        const gifts: Gift[] = data.map((item) => ({
+          id: Number(item.id),
+          name: item.name,
+          suggestedPrice: Number(
+            item.suggestedPrice.replace(",", ".")
+          ),
+          category: item.category as GiftCategory,
+          priority: item.priority.toUpperCase() === "TRUE",
+          image: formatImageUrl(item.image),
+          description: item.description,
+        }));
 
-      //   setGifts(gifts);
+        setGifts(gifts);
       } catch (error) {
         console.error("Erro ao carregar lista de presentes:", error);
       }
     }
 
-    // loadGifts();
+    loadGifts();
   }, [setGifts]);
 
   return (
