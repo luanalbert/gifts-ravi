@@ -41,7 +41,6 @@ export default function Home() {
 
   useEffect(() => {
     async function loadGifts() {
-      console.log('testando')
       // try {
       //   const response = await fetch(
       //     "https://opensheet.elk.sh/15Eqj04SUsx5jU_tP8no8b01vRHua5d1TxIcdyyjzmT4/presentes"
@@ -67,7 +66,7 @@ export default function Home() {
       }
     }
 
-    loadGifts();
+    // loadGifts();
   }, [setGifts]);
 
   return (
