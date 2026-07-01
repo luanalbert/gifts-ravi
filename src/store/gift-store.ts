@@ -13,7 +13,9 @@ interface GiftStore {
   // Modal
   selectedGift: Gift | null;
   isModalOpen: boolean;
+  isFreeModal: boolean; // modal sem presente vinculado
   openModal: (gift: Gift) => void;
+  openFreeModal: () => void; // abre modal de contribuição livre
   closeModal: () => void;
 
   // Valor de contribuição no modal
@@ -30,16 +32,26 @@ export const useGiftStore = create<GiftStore>((set) => ({
 
   selectedGift: null,
   isModalOpen: false,
+  isFreeModal: false,
   openModal: (gift) =>
     set({
       selectedGift: gift,
       isModalOpen: true,
+      isFreeModal: false,
       contributionAmount: gift.suggestedPrice,
+    }),
+  openFreeModal: () =>
+    set({
+      selectedGift: null,
+      isModalOpen: true,
+      isFreeModal: true,
+      contributionAmount: 50,
     }),
   closeModal: () =>
     set({
       isModalOpen: false,
       selectedGift: null,
+      isFreeModal: false,
     }),
 
   contributionAmount: 0,
