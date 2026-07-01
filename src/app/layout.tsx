@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Cantinho do Ravi 💛",
   description:
-    "Lista de presentes do Ravi — contribua com o que o coração mandar.",
+    "Lista de presentes do Ravi — contribua com o que desejar.",
   openGraph: {
     title: "Cantinho do Ravi 💛",
     description: "O Ravi está chegando! Veja a lista de presentes.",

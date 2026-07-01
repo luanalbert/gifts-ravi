@@ -67,7 +67,7 @@ export function Hero() {
         >
           Cada presente é um carinho que vai fazer parte
           da chegada do nosso menino. Contribua com o que
-          o coração mandar — tudo é muito bem-vindo.
+          desejar — tudo é muito bem-vindo.
         </motion.p>
 
         {/* CTA */}
