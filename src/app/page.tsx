@@ -25,7 +25,7 @@ function formatImageUrl(url: string): string {
 
   if (match) {
     const fileId = match[1];
-    return `https://drive.google.com/uc?export=view&id=${fileId}`;
+    // return `https://drive.google.com/uc?export=view&id=${fileId}`;
   }
 
   // Se for imagem local
